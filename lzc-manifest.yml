@@ -1,0 +1,67 @@
+application:
+  subdomain: openbudgeteer
+  multi_instance: false
+  # Single-user auth configured via env (APPSETTINGS_AUTH_USERNAME/PASSWORD),
+  # no self-registration path -> no public_path (wiki-go precedent).
+  upstreams:
+    - location: /package-licenses/
+      backend: file:///lzcapp/pkg/content/licenses/
+    - location: /
+      backend: http://openbudgeteer:8080/
+services:
+  openbudgeteer:
+    # upstream: axelander/openbudgeteer:1.11.3
+    image: docker.1ms.run/axelander/openbudgeteer:1.11.3
+    environment:
+      - CONNECTION_PROVIDER=mariadb
+      - CONNECTION_SERVER=mariadb
+      - CONNECTION_PORT=3306
+      - CONNECTION_DATABASE=openbudgeteer
+      - CONNECTION_USER=openbudgeteer
+      - CONNECTION_PASSWORD={{ .U.ob_db_pass_9sdg }}
+      - CONNECTION_ROOT_PASSWORD={{ .U.ob_db_root_9sdg }}
+      - CONNECTION_REDIS_SERVER=redis
+      - CONNECTION_REDIS_PORT=6379
+      - APPSETTINGS_CULTURE=en-US
+      - APPSETTINGS_AUTH_ENABLED=true
+      - APPSETTINGS_AUTH_USERNAME={{ .U.ob_admin_user_9sdg }}
+      - APPSETTINGS_AUTH_PASSWORD={{ .U.ob_admin_pass_9sdg }}
+      - APPSETTINGS_AUTH_SESSION_DAYS=7
+      - TZ=Asia/Shanghai
+    depends_on:
+      - mariadb
+      - redis
+  mariadb:
+    # upstream: library/mariadb:11.8.9
+    image: docker.1ms.run/library/mariadb:11.8.9
+    environment:
+      - MYSQL_ROOT_PASSWORD={{ .U.ob_db_root_9sdg }}
+      - MYSQL_DATABASE=openbudgeteer
+      - MYSQL_USER=openbudgeteer
+      - MYSQL_PASSWORD={{ .U.ob_db_pass_9sdg }}
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/mutdata/mariadb:/var/lib/mysql
+  redis:
+    # upstream: library/redis:7.2.5 (plain, official quick-start form; internal network only)
+    image: docker.1ms.run/library/redis:7.2.5
+    environment:
+      - TZ=Asia/Shanghai
+    binds:
+      - /lzcapp/var/mutdata/redis:/data
+usage: |
+  OpenBudgeteer 是基于 Bucket 预算法则的开源记账与预算管理应用（AGPL-3.0），
+  支持银行账单批量导入、规则自动分类与多视图报表，数据保存在本机数据库。
+
+  使用方法：
+  1. 部署时打开应用，用部署参数中显示的登录名与密码登录（首次安装自动生成随机密码，
+     可在部署参数中查看/修改）。
+  2. 在 Settings 页导入银行账单 CSV（或手动记账），按官方文档建立 Bucket 规则。
+
+  说明：
+  - 登录账号由环境变量配置（单用户模式，无自助注册页），因此未开放 public_path，
+    由平台入口鉴权作为第一道防线。
+  - 应用登录密码为部署系统注入的随机值，如需更换可在部署参数中修改后重新部署。
+  - 数据保存在 /lzcapp/var/mutdata（MariaDB + Redis），卸载会一并删除。
+  - 本包未做实机验证，功能以官方文档为准：https://theaxelander.github.io/
+  - 许可证 AGPL-3.0，随包分发，见 /package-licenses/。

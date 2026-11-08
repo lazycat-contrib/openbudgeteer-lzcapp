@@ -1,0 +1,53 @@
+params:
+  - id: ob_admin_user_9sdg
+    type: string
+    name: "登录用户名"
+    description: "OpenBudgeteer 登录用户名（单用户模式）"
+    default_value: "admin"
+    optional: false
+  - id: ob_admin_pass_9sdg
+    type: secret
+    name: "登录密码"
+    description: "OpenBudgeteer 登录密码（已预置随机值，可在部署参数中查看）"
+    default_value: "rQ8wTv4kXm2pJd6n"
+    optional: false
+  - id: ob_db_pass_9sdg
+    type: secret
+    name: "数据库密码"
+    description: "MariaDB 数据库密码（已预置随机值，应用自动使用）"
+    default_value: "hT5eNy8cWq3rZb1s"
+    optional: false
+  - id: ob_db_root_9sdg
+    type: secret
+    name: "数据库 Root 密码"
+    description: "MariaDB root 密码，仅首次建库使用（已预置随机值，应用自动使用）"
+    default_value: "kW9aGv2xFt7qMn5y"
+    optional: false
+
+locales:
+  zh:
+    ob_admin_user_9sdg:
+      name: "登录用户名"
+      description: "OpenBudgeteer 登录用户名（单用户模式）"
+    ob_admin_pass_9sdg:
+      name: "登录密码"
+      description: "OpenBudgeteer 登录密码（已预置随机值，可在部署参数中查看）"
+    ob_db_pass_9sdg:
+      name: "数据库密码"
+      description: "MariaDB 数据库密码（已预置随机值，应用自动使用）"
+    ob_db_root_9sdg:
+      name: "数据库 Root 密码"
+      description: "MariaDB root 密码，仅首次建库使用（已预置随机值，应用自动使用）"
+  en:
+    ob_admin_user_9sdg:
+      name: "Login username"
+      description: "OpenBudgeteer login username (single-user mode)"
+    ob_admin_pass_9sdg:
+      name: "Login password"
+      description: "OpenBudgeteer login password (pre-filled with a random value, viewable in deploy params)"
+    ob_db_pass_9sdg:
+      name: "Database password"
+      description: "MariaDB database password (pre-filled with a random value, used automatically)"
+    ob_db_root_9sdg:
+      name: "Database root password"
+      description: "MariaDB root password, used for initial DB creation (pre-filled with a random value, used automatically)"

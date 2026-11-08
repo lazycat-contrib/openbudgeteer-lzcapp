@@ -1,0 +1,18 @@
+package: community.lazycat.app.openbudgeteer
+name: OpenBudgeteer
+version: 1.11.3
+description: "Budgeting app based on the Bucket Budgeting Principle, inspired by YNAB and Buckets."
+min_os_version: "1.5.0"
+homepage: https://theaxelander.github.io
+author: TheAxelander
+license: "AGPL-3.0"
+permissions:
+  required:
+    - net.internet
+locales:
+  zh:
+    name: OpenBudgeteer
+    description: "基于 Bucket 预算法则的记账与预算管理应用，数据自持，支持银行账单批量导入与规则自动分类。"
+  en:
+    name: OpenBudgeteer
+    description: "Budgeting app based on the Bucket Budgeting Principle, inspired by YNAB and Buckets."
