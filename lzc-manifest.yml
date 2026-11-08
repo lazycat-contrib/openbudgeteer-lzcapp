@@ -43,8 +43,8 @@ services:
     binds:
       - /lzcapp/var/mutdata/mariadb:/var/lib/mysql
   redis:
-    # upstream: library/redis:7.2.5 (plain, official quick-start form; internal network only)
-    image: docker.1ms.run/library/redis:7.2.5
+    # upstream: library/redis:7.2.17
+    image: docker.1ms.run/library/redis:7.2.17
     environment:
       - TZ=Asia/Shanghai
     binds:
